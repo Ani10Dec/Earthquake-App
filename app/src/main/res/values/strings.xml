@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Quake Alert</string>
+    <string name="loading_earthquakes">Loading Earthquakes…</string>
+    <string name="no_earthquakes_found">Check Your Internet Connection</string>
+    <string name="noDataPicture">noDataPicture</string>
+    <string name="mag_quantity">7.2</string>
+    <string name="locationOffset">35Km of</string>
+    <string name="primaryLocation">New York, USA</string>
+    <string name="dateAndTime">Sep 20, 2020 5:45 am</string>
+    <string name="search_title">Search</string>
+    <string name="about_toolbar_title">About</string>
+</resources>
