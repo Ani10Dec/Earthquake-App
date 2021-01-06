@@ -9,21 +9,15 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
 
-    <!--    <item-->
-    <!--        android:id="@+id/setting"-->
-    <!--        android:icon="@drawable/ic_settings"-->
-    <!--        android:title="@string/settings_menu_item"-->
-    <!--        android:orderInCategory="1"-->
-    <!--        app:showAsAction="ifRoom"/>-->
     <item
         android:id="@+id/menuLatest"
-        android:title="Latest" />
+        android:title="@string/menu_latest_label" />
     <item
         android:id="@+id/menuFilter"
-        android:title="Filter" />
+        android:title="@string/menu_filter_label" />
     <item
         android:id="@+id/menuAbout"
-        android:title="About" />
+        android:title="@string/menu_about_label" />
 
 
 </menu>

@@ -31,6 +31,9 @@
     <string name="settings_order_by_label" translatable="false">Order By</string>
     <string name="settings_order_by_key" translatable="false">Oder_list</string>
     <string name="setting_search_btn">Search</string>
+    <string name="menu_latest_label">Latest</string>
+    <string name="menu_filter_label">Filter</string>
+    <string name="menu_about_label">About</string>
 
 
 </resources>
