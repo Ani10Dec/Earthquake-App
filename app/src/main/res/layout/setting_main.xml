@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:name="com.example.quakealert.SettingActivity$EarthquakePreferenceFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SettingActivity">
 
-</fragment>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/fragmentScreen"
+        android:name="com.example.quakealert.SettingActivity$EarthquakePreferenceFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".SettingActivity">
+    </fragment>
+
+    <Button
+        android:id="@+id/filterButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@color/magnitudeColor"
+        android:layout_marginBottom="115dp"
+        android:paddingHorizontal="15dp"
+        android:text="@string/setting_search_btn"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

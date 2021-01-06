@@ -88,7 +88,7 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.Vi
         return filterQuake;
     }
 
-    private Filter filterQuake = new Filter() {
+    private final Filter filterQuake = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence input) {
             ArrayList<EarthquakeItem> filteredArray = new ArrayList<>();

@@ -1,4 +1,15 @@
 <resources>
+
+    <string-array name="orderByEntries">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+
+    <string-array name="orderByValues">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+
     <string name="app_name">Quake Alert</string>
     <string name="loading_earthquakes">Loading Earthquakes…</string>
     <string name="no_earthquakes_found">Check Your Internet Connection</string>
@@ -9,4 +20,17 @@
     <string name="dateAndTime">Sep 20, 2020 5:45 am</string>
     <string name="search_title">Search</string>
     <string name="about_toolbar_title">About</string>
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">Earthquake Filter</string>
+    <string name="settings_min_magnitude_label" translatable="false">Minimum Magnitude</string>
+    <string name="settings_min_magnitude_key" translatable="false">min_magnitude</string>
+    <string name="settings_min_magnitude_default" translatable="false">6</string>
+    <string name="settings_min_earthquake_default" translatable="false">10</string>
+    <string name="settings_no_of_earthquake_key" translatable="false">no_of_earthquake</string>
+    <string name="settings_no_of_earthquake_label" translatable="false">Number of Earthquake</string>
+    <string name="settings_order_by_label" translatable="false">Order By</string>
+    <string name="settings_order_by_key" translatable="false">Oder_list</string>
+    <string name="setting_search_btn">Search</string>
+
+
 </resources>

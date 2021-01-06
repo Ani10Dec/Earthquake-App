@@ -10,9 +10,20 @@
         app:showAsAction="always" />
 
     <!--    <item-->
-    <!--        android:id="@+id/more_vert"-->
-    <!--        android:icon="@drawable/ic_more_vert"-->
-    <!--        android:title="@string/about_toolbar_title" />-->
+    <!--        android:id="@+id/setting"-->
+    <!--        android:icon="@drawable/ic_settings"-->
+    <!--        android:title="@string/settings_menu_item"-->
+    <!--        android:orderInCategory="1"-->
+    <!--        app:showAsAction="ifRoom"/>-->
+    <item
+        android:id="@+id/menuLatest"
+        android:title="Latest" />
+    <item
+        android:id="@+id/menuFilter"
+        android:title="Filter" />
+    <item
+        android:id="@+id/menuAbout"
+        android:title="About" />
 
 
 </menu>

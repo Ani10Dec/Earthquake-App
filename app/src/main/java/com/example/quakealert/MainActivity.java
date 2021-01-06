@@ -1,11 +1,16 @@
 package com.example.quakealert;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.DecimalFormat;
 import android.icu.text.SimpleDateFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,9 +38,16 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
 
     // Global Variables:
-    LinearLayout loadingView, noDataView;
-    RecyclerView recyclerView;
-    EarthquakeAdapter adapter;
+    private LinearLayout loadingView, noDataView;
+    private RecyclerView recyclerView;
+    private EarthquakeAdapter adapter;
+
+    // EarthQuake URL:
+    final String mutableUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime";
+    final String latestUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime&minmagnitude=5";
+
+    // State of Screen
+    int stateOfScreen = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +59,34 @@ public class MainActivity extends AppCompatActivity {
         noDataView = findViewById(R.id.noDataView);
         recyclerView = findViewById(R.id.recyclerView);
 
-        // Calling fetchingEarthquake Method();
-        fetchingEarthquake();
-
         // Setting pullToRefresh method:
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
         pullToRefresh.setOnRefreshListener(() -> {
 
             // Calling fetchingEarthquake Method();
-            fetchingEarthquake();
+            if (stateOfScreen == 1) {
+                getMutableUrlJson();
+            } else if (stateOfScreen == 2) {
+                fetchingEarthquake(latestUrl);
+            }
             pullToRefresh.setRefreshing(false);
         });
     }
 
-    //TODO Setting up ToolBar Icons:
+    @Override
+    protected void onStart() {
+        super.onStart();
+        stateOfScreen = 2;
+        fetchingEarthquake(latestUrl);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stateOfScreen = 1;
+        getMutableUrlJson();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -83,7 +110,46 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void fetchingEarthquake() {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menuFilter) {
+            Toast.makeText(this, "Set Desired Earthquake", Toast.LENGTH_SHORT).show();
+            Intent filterIntent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(filterIntent);
+//            return true;
+        } else if (id == R.id.menuAbout) {
+            Toast.makeText(this, "About Quake Alert", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.menuLatest) {
+            stateOfScreen = 2;
+            fetchingEarthquake(latestUrl);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void getMutableUrlJson() {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String min_mag = preferences.getString(getString(R.string.settings_min_magnitude_key), "5");
+        String no_of_quake = preferences.getString(getString(R.string.settings_no_of_earthquake_key), "12");
+        String orderBy = preferences.getString(getString(R.string.settings_order_by_key), "Descending");
+
+        String sorting;
+        if (!orderBy.equals("Descending")) {
+            sorting = "magnitude-asc";
+        } else sorting = "magnitude";
+
+        Uri uri = Uri.parse(mutableUrl).buildUpon().
+                appendQueryParameter("minmagnitude", min_mag).
+                appendQueryParameter("limit", no_of_quake).
+                appendQueryParameter("orderby", sorting).
+                build();
+        Log.d("url", String.valueOf(uri));
+        String editedUrl = uri.toString();
+        fetchingEarthquake(editedUrl);
+    }
+
+    private void fetchingEarthquake(String url) {
 
         // Setting LayoutManager:
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -98,8 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Fetching earthquakes Data:
             AsyncHttpClient client = new AsyncHttpClient();
-            String USGS_URL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
-            client.get(USGS_URL, new JsonHttpResponseHandler() {
+            client.get(url, new JsonHttpResponseHandler() {
 
                 // Member Variables:
                 String[] splitLocation;
@@ -173,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void setLoadingViewMethod() {
         // Setting Loading Page:
